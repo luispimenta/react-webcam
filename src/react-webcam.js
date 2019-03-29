@@ -307,7 +307,7 @@ export default class Webcam extends Component {
         muted={this.props.audio}
         className={this.props.className}
         playsInline
-        style={this.props.mirror ? { ...this.props.style, transform: 'scaleX(-1)' } : this.props.style}
+        style={this.props.mirror ? { transform: 'scaleX(-1)' } : this.props.style}
         ref={(ref) => {
           this.video = ref;
         }}
