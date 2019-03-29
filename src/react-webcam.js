@@ -75,12 +75,12 @@ export default class Webcam extends Component {
     audio: true,
     className: '',
     height: 480,
+    imageSmoothing: true,
     onUserMedia: () => {},
     onUserMediaError: () => {},
     screenshotFormat: 'image/webp',
     width: 640,
     screenshotQuality: 0.92,
-    mirror: false,
   };
 
   static propTypes = {
@@ -97,10 +97,11 @@ export default class Webcam extends Component {
     style: PropTypes.object,
     className: PropTypes.string,
     screenshotQuality: PropTypes.number,
-    screenshotWidth: PropTypes.number,
+    minScreenshotWidth: PropTypes.number,
+    minScreenshotHeight: PropTypes.number,
     audioConstraints: audioConstraintType,
     videoConstraints: videoConstraintType,
-    mirror: PropTypes.bool,
+    imageSmoothing: PropTypes.bool,
   };
 
   static mountedInstances = [];
@@ -124,7 +125,7 @@ export default class Webcam extends Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
+  componentDidUpdate(nextProps) {
     if (
       JSON.stringify(nextProps.audioConstraints) !==
         JSON.stringify(this.props.audioConstraints) ||
@@ -171,17 +172,23 @@ export default class Webcam extends Component {
       const canvas = document.createElement('canvas');
       const aspectRatio = this.video.videoWidth / this.video.videoHeight;
 
-      const canvasWidth = this.props.screenshotWidth || this.video.clientWidth;
+      var canvasWidth = this.props.minScreenshotWidth || this.video.clientWidth;
+      var canvasHeight = canvasWidth / aspectRatio;
+
+      if (this.props.minScreenshotHeight && (canvasHeight < this.props.minScreenshotHeight)) {
+        canvasHeight = this.props.minScreenshotHeight;
+        canvasWidth = canvasHeight * aspectRatio;
+      }
 
       canvas.width = canvasWidth;
-      canvas.height = canvasWidth / aspectRatio;
+      canvas.height = canvasHeight;
 
       this.canvas = canvas;
       this.ctx = canvas.getContext('2d');
     }
 
     const { ctx, canvas } = this;
-
+    
     if (this.props.mirror) {
       ctx.save();
       ctx.translate(canvas.width, 0);
@@ -307,7 +314,7 @@ export default class Webcam extends Component {
         muted={this.props.audio}
         className={this.props.className}
         playsInline
-        style={this.props.mirror ? { transform: 'scaleX(-1)' } : this.props.style}
+        style={this.props.style}
         ref={(ref) => {
           this.video = ref;
         }}

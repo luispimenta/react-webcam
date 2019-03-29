@@ -1,6 +1,6 @@
 {
   "name": "react-webcam-mirror",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "React webcam component",
   "main": "dist/react-webcam.js",
   "scripts": {
@@ -44,10 +44,9 @@
     "eslint-plugin-react": "^7.1.0",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
-    "webpack": "^2.7.0"
+    "webpack": "^2.5.1"
   },
   "dependencies": {
-    "prop-types": "^15.5.8",
-    "yarn": "^1.15.2"
+    "prop-types": "^15.5.8"
   }
 }
