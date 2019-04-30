@@ -1,6 +1,6 @@
 {
   "name": "react-webcam-mirror",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "React webcam component",
   "main": "dist/react-webcam.js",
   "scripts": {

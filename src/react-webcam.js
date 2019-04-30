@@ -70,7 +70,7 @@ const videoConstraintType = PropTypes.shape({
   width: constrainLongType,
 });
 
-export default class Webcam extends Component {
+export default class Webcam extends Component {  
   static defaultProps = {
     audio: true,
     className: '',
@@ -110,8 +110,9 @@ export default class Webcam extends Component {
 
   constructor() {
     super();
+    this.mirrored = false;
     this.state = {
-      hasUserMedia: false,
+      hasUserMedia: false      
     };
   }
 
@@ -189,7 +190,7 @@ export default class Webcam extends Component {
 
     const { ctx, canvas } = this;
     
-    if (this.props.mirror) {
+    if (this.props.mirror && !this.mirrored) {      
       ctx.save();
       ctx.translate(canvas.width, 0);
       ctx.scale(-1, 1);
